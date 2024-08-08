@@ -11,6 +11,8 @@ export default function Home() {
   const [feedback, setFeedback] = useState('');
   const [points, setPoints] = useState(0);
 
+  console.log("la bandera es, ", selectedFlag);
+
   useEffect(() => {
     axios.get("https://countriesnow.space/api/v0.1/countries/flag/images").then((response) => {
       setBanderas(response.data.data);
@@ -22,6 +24,7 @@ export default function Home() {
     if (flags.length === 0) return;
     const randomIndex = Math.floor(Math.random() * flags.length);
     setSelectedFlag(flags[randomIndex]);
+    //console.log("la bandera es, ", selectedFlag);
     setFeedback('');
   };
 
