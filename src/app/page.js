@@ -1,8 +1,12 @@
 "use client";
 
-import styles from "./page.module.css";
+import styles from "../app/styles/page.module.css";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
+import FlagImage from "./components/FlagImage";
+import GuessInput from "./components/GuessInput";
+import Timer from "./components/Timer";
+import Feedback from "./components/Feedback";
 
 export default function Home() {
   const [banderas, setBanderas] = useState([]);
@@ -26,7 +30,7 @@ export default function Home() {
     const flag = flags[random];
     setSelectedFlag(flag);
     setFeedback('');
-    resetTimer(); // para volver a empezar. igual ver la prmi
+    resetTimer();
   };
 
   const handleGuess = () => {
@@ -91,22 +95,11 @@ export default function Home() {
       </header>
       {selectedFlag ? (
         <div className={styles.gameContainer}>
-          <div className={styles.flagImageWrapper}>
-            <img src={selectedFlag.flag} alt={`Flag of ${selectedFlag.name}`} className={styles.flagImage} />
-          </div>
-          <div className={styles.guessContainer}>
-            <input
-              type="text"
-              value={userGuess}
-              onChange={(e) => setUserGuess(e.target.value)}
-              placeholder="Escribe el nombre del país"
-              className={styles.guessInput}
-            />
-            <button onClick={handleGuess} className={styles.guessButton}>Adivinar</button>
-          </div>
+          <FlagImage flag={selectedFlag.flag} name={selectedFlag.name} />
+          <GuessInput userGuess={userGuess} onChange={(e) => setUserGuess(e.target.value)} onGuess={handleGuess} />
           <h2>Puntos: {points}</h2>
-          <h3>Tiempo restante: {timeLeft}s</h3>
-          {feedback && <p className={styles.feedback}>{feedback}</p>}
+          <Timer timeLeft={timeLeft} />
+          <Feedback feedback={feedback} />
         </div>
       ) : null}
     </main>
